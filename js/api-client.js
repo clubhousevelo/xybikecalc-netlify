@@ -2,7 +2,7 @@
 class APIClient {
     static async callCalculator(calculationType, data) {
         try {
-            const response = await fetch('/netlify/functions/calculator', {
+            const response = await fetch('/secret_sauce/functions/calculator', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ class APIClient {
 
     static async getBikeData(range = 'A:P') {
         try {
-            const response = await fetch('/netlify/functions/sheets-api', {
+            const response = await fetch('/secret_sauce/functions/sheets-api', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -4352,7 +4352,7 @@ class BikeDatabase {
 
     async loadBikeData() {
         try {
-            const response = await fetch('/netlify/functions/sheets-api', {
+            const response = await fetch('/secret_sauce/functions/sheets-api', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
