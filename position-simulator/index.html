@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H1TXBTLXDW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-H1TXBTLXDW');
+    </script>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
+    <!-- Immediate dark mode setup -->
+    <script>
+      // Set theme immediately to prevent flash
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Bike Position Simulator - A comprehensive bike geometry tool for calculating complete bike specifications and configurations. Build your perfect bike setup with accurate measurements.">
+    <meta name="keywords" content="bike calculator, bicycle calculator, bike position simulator, bike geometry, bike specifications, bike configuration, bike setup">
+    <meta name="author" content="XY Bike Calc">
+    <meta name="robots" content="index, follow">
+    
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://cdnjs.cloudflare.com https://apis.google.com https://www.googletagmanager.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://www.google-analytics.com; connect-src 'self' https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://sheets.googleapis.com https://*.googleapis.com https://www.google-analytics.com https://analytics.google.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <title>Bike Position Simulator - Complete Bike Configuration Tool</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <!-- Bike Position Simulator Specific Styles -->
+    <style>
+        /* Hide the client info card and toggle button for Bike Position Simulator */
+        .client-info-card {
+            display: none !important;
+        }
+        
+        .client-info-toggle {
+            display: none !important;
+        }
+        
+        /* Adjust calculator container since client info is hidden */
+        .calculator-container {
+            margin-left: 0 !important;
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 auto !important;
+            padding: 20px 20px 0 227px !important; /* Desktop: 227px left padding */
+        }
+        
+        /* Mobile view: remove left padding */
+        @media (max-width: 768px) {
+            .calculator-container {
+                padding: 20px !important; /* Mobile: equal padding on all sides */
+            }
+        }
+        
+        /* Create side-by-side layout for bike card and graph */
+        .bikes-container-wrapper {
+            display: flex !important;
+            justify-content: flex-start !important;
+            gap: 20px !important;
+            align-items: flex-start !important;
+        }
+        
+        #bikes-container {
+            display: flex !important;
+            justify-content: flex-start !important;
+            gap: 20px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .bike-card {
+            margin-top: -8px;
+        }
+        
+        /* Graph container */
+        .graph-container {
+            flex: 1 !important;
+            height: 785px !important;
+            background-color: var(--card-background) !important;
+            border: 1px solid var(--border-color) !important;
+            border-radius: 8px !important;
+            padding: 20px !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        .graph-content {
+            width: 100% !important;
+            height: 705px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        #bikeGeometryCanvas {
+            width: 100% !important;
+            height: 100% !important;
+            border: 1px solid var(--border-color) !important;
+            border-radius: 4px !important;
+        }
+        
+        /* Canvas Controls */
+        .canvas-controls {
+            display: block;
+            margin-top: 5px;
+            text-align: center;
+            margin-bottom: -12px;
+            padding: 3px;
+            background-color: var(--card-background);
+
+        }
+        
+        .control-checkbox {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-color);
+            user-select: none;
+            white-space: nowrap;
+        }
+        
+        .control-checkbox input[type="checkbox"] {
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        
+        .control-checkbox:hover {
+            color: var(--primary-color);
+        }
+        
+        .position-controls-row {
+            margin-bottom: 0px;
+            margin-top: 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+        }
+        
+        .position-controls-row h4 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
+            min-width: 80px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: nowrap;
+        }
+        
+        .checkbox-group .control-checkbox {
+            white-space: nowrap;
+        }
+        
+        /* Bike Label Styling */
+        .bike-card .button-group {
+            position: relative;
+        }
+        
+        .bike-card .button-group label {
+            position: absolute;
+            bottom: 0px;
+            right: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 0;
+            z-index: 1;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+        }
+        
+        .bike-card .delete-button {
+            position: absolute;
+            bottom: 0px;
+            right: 90px;
+            z-index: 2;
+        }
+        
+        .bike-card:nth-child(1) .button-group label {
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
+        
+        .bike-card:nth-child(2) .button-group label {
+            background-color: #FFA552;
+            color: #ffffff;
+        }
+        
+        
+        /* Modal Styles */
+        .upgrade-modal, .tos-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .upgrade-modal.show, .tos-modal.show {
+            display: flex;
+        }
+
+        .upgrade-content, .tos-content {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .upgrade-button, .tos-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 4px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .upgrade-button:hover, .tos-button:hover {
+            opacity: 0.9;
+        }
+        
+        .tos-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .tos-content p {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .tos-links {
+            margin-bottom: 20px;
+        }
+        
+        .tos-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .tos-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Terms of Service Modal -->
+    <div id="tosModal" class="tos-modal">
+        <div class="tos-content">
+            <h2>Terms of Service</h2>
+            <p>By using this application, you agree to our Terms of Service and Privacy Policy.</p>
+            <div class="tos-links">
+                <a href="/terms-of-service/" target="_blank">Read Terms of Service</a> | 
+                <a href="/privacy-policy/" target="_blank">Read Privacy Policy</a>
+            </div>
+            <button class="tos-button" onclick="acknowledgeTos()">I Agree</button>
+            <button class="tos-button" onclick="declineTos()" style="background-color: #666; margin-left: 10px;">Decline</button>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobileNav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/" class="active">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button-mobile" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="mobileDarkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="main-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/" class="active">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="darkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Button -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Client Information Card -->
+    <div class="client-info-card"><h2 class="client-info-title" style="text-align: center;">Rider Information</h2><div class="client-info-section"><label for="clientName">Name:</label><input type="text" id="clientName" placeholder="Rider Name"></div><div class="client-info-section"><label for="clientNotes">Fit Notes:</label><textarea id="clientNotes" placeholder="Notes here will populate in the 'Open' profile dialog" style="height: 62px;"></textarea></div><h3 class="client-info-section-title" style="text-align: center;">Target Position</h3><div class="client-info-section"><div class="input-row-single"><label class="tooltip" for="targetSaddleX">Saddle X:<span class="tooltip-text">This is not the same as 'Saddle Setback'. Please read the guide if you are unsure of this value.</span></label><div class="input-with-unit"><input type="number" id="targetSaddleX" placeholder=""><span>mm</span></div></div><div class="input-row-single"><label class="tooltip" for="targetSaddleY">Saddle Y:<span class="tooltip-text">This is not the same as 'Saddle Height'. Please read the guide if you are unsure of this value.</span></label><div class="input-with-unit"><input type="number" id="targetSaddleY" placeholder=""><span>mm</span></div></div><div class="input-row-single" style="margin-top: 15px;"><label for="targetHandlebarX">Handlebar X:</label><div class="input-with-unit"><input type="number" id="targetHandlebarX" placeholder=""><span>mm</span></div></div><div class="input-row-single"><label for="targetHandlebarY">Handlebar Y:</label><div class="input-with-unit"><input type="number" id="targetHandlebarY" placeholder=""><span>mm</span></div></div><div class="input-row-single"><label for="handlebarReachUsed">Bar Reach Used:</label><div class="input-with-unit"><input type="number" id="handlebarReachUsed" placeholder=""><span>mm</span></div></div></div><label class="tooltip-client-info"><h3 class="client-info-section-title" style="text-align: center;">Component Notes<span class="tooltip-text">Notes about the components that were used to plan to be used. These notes have no bearing on the calculations.</span></h3></label><div class="client-info-section"><label for="saddleNotes">Saddle:</label><textarea id="saddleNotes" placeholder=""></textarea></div><div class="client-info-section"><label for="handlebarNotes">Handlebar:</label><textarea id="handlebarNotes" placeholder=""></textarea></div><div class="client-info-section"><label for="crankLengthNotes">Crank Length:</label><textarea id="crankLengthNotes" placeholder=""></textarea></div><div class="client-info-section"><label for="drivetrainNotes">Drivetrain:</label><textarea id="drivetrainNotes" placeholder=""></textarea></div><div class="client-buttons"><button id="saveButton" disabled>Save</button><button id="loadButton">Open</button></div></div>
+    
+    
+    <div class="calculator-container" id="calculatorContainer">
+        <div class="calculator-header">
+            <h1 class="calculator-title">
+                <span class="collapse-indicator">▼</span>
+                Bike Position Simulator
+            </h1>
+            <p class="calculator-description">Visualize what your position might look like. All input fields can be edited. Use on desktop for best experience.</p>
+        </div>
+
+        <div class="bikes-container-wrapper">
+            <div id="bikes-container"></div>
+            <div class="graph-container">
+                <div class="graph-content">
+                    <canvas id="bikeGeometryCanvas" width="100%" height="100%"></canvas>
+                </div>
+                <div class="canvas-controls">
+                    <div class="position-controls-row">
+                        <h4>Bike 1:</h4>
+                        <div class="checkbox-group">
+                            <label class="control-checkbox">
+                                <input type="checkbox" id="showPosition1" checked>
+                                <span class="checkmark"></span>
+                                Bike
+                            </label>
+                            <label class="control-checkbox">
+                                <input type="checkbox" id="showXYAxes1" checked>
+                                <span class="checkmark"></span>
+                                Cartesian (XY) Coordinates
+                            </label>
+                            <label class="control-checkbox">
+                                <input type="checkbox" id="showSeatpostMeasurements1" checked>
+                                <span class="checkmark"></span>
+                                Polar Coordinates
+                            </label>
+                        </div>
+                    </div>
+                    <div class="position-controls-row">
+                        <h4>Bike 2:</h4>
+                        <div class="checkbox-group">
+                            <label class="control-checkbox">
+                                <input type="checkbox" id="showPosition2" checked>
+                                <span class="checkmark"></span>
+                                Bike
+                            </label>
+                            <label class="control-checkbox">
+                                <input type="checkbox" id="showXYAxes2" checked>
+                                <span class="checkmark"></span>
+                                Cartesian (XY) Coordinates
+                            </label>
+                            <label class="control-checkbox">
+                                <input type="checkbox" id="showSeatpostMeasurements2" checked>
+                                <span class="checkmark"></span>
+                                Polar Coordinates
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="add-buttons">
+            <button id="addBike">Add Bike</button>
+            <button id="addManualBike" style="display: none;">Add Manual Bike</button>
+            <button id="printButton" class="print-button" style="display: none;">Print</button>
+            <button id="clearAllData" class="clear-button" style="display: none;">Reset All</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="../js/version.js"></script>
+    <script src="../js/mobile-menu.js"></script>
+    <script src="../js/calculator-header.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+    <script src="../js/api-client.js"></script>
+    <script src="../js/position-simulator.js"></script>
+    <script>
+        // Initialize the calculator
+        window.calculator = new BikeCalculator();
+        
+        // Global function for dark mode toggle
+        function toggleTheme() {
+            // Toggle theme
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            // Apply theme
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update all toggle buttons
+            document.querySelectorAll('#darkModeToggle, #mobileDarkModeToggle').forEach(btn => {
+                const icon = btn.querySelector('.toggle-icon');
+                const text = btn.querySelector('.toggle-text');
+                
+                if (icon) icon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+                if (text) text.textContent = newTheme === 'dark' ? 'Dark Mode' : 'Light Mode';
+            });
+            
+            return false; // Prevent default action
+        }
+        
+        // Update button appearance on page load
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        document.querySelectorAll('#darkModeToggle, #mobileDarkModeToggle').forEach(btn => {
+            const icon = btn.querySelector('.toggle-icon');
+            const text = btn.querySelector('.toggle-text');
+            
+            if (icon) icon.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+            if (text) text.textContent = currentTheme === 'dark' ? 'Dark Mode' : 'Light Mode';
+        });
+    </script>
+    
+    <!-- Client Information Card Sync Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Client info card elements are the same as the calculator elements now
+            const clientName = document.getElementById('clientName');
+            const targetSaddleX = document.getElementById('targetSaddleX');
+            const targetSaddleY = document.getElementById('targetSaddleY');
+            const targetHandlebarX = document.getElementById('targetHandlebarX');
+            const targetHandlebarY = document.getElementById('targetHandlebarY');
+            const handlebarReachUsed = document.getElementById('handlebarReachUsed');
+            const clientNotes = document.getElementById('clientNotes');
+            const saddleNotes = document.getElementById('saddleNotes');
+            const handlebarNotes = document.getElementById('handlebarNotes');
+            const crankLengthNotes = document.getElementById('crankLengthNotes');
+            const drivetrainNotes = document.getElementById('drivetrainNotes');
+            
+            // Client Info Toggle Button
+            const clientInfoToggle = document.getElementById('clientInfoToggle');
+            const clientInfoCard = document.querySelector('.client-info-card');
+            const calculatorContainerWrapper = document.getElementById('calculatorContainer');
+            // Toggle client info card when button is clicked
+            clientInfoToggle.addEventListener('click', function() {
+                clientInfoCard.classList.toggle('active');
+                clientInfoToggle.classList.toggle('active');
+                calculatorContainerWrapper.classList.toggle('active');
+            });
+
+            clientInfoToggleExpand.addEventListener('click', function() {
+                clientInfoCard.classList.toggle('active');
+                clientInfoToggle.classList.toggle('active');
+                calculatorContainerWrapper.classList.toggle('active');
+            });
+            
+            // Enable save button if client name is filled
+            clientName.addEventListener('input', function() {
+                document.getElementById('saveButton').disabled = !clientName.value.trim();
+            });
+            
+            // Trigger calculation events when input changes
+            [targetSaddleX, targetSaddleY, targetHandlebarX, targetHandlebarY, handlebarReachUsed].forEach(el => {
+                el.addEventListener('input', function() {
+                    if (this.value) {
+                        const event = new Event('input', { bubbles: true });
+                        this.dispatchEvent(event);
+                    }
+                });
+            });
+            
+            // Initialize when client is loaded
+            document.getElementById('loadButton').addEventListener('click', function() {
+                // Wait a bit for the client data to load
+                setTimeout(function() {
+                    // Check if client name is filled to enable save button
+                    document.getElementById('saveButton').disabled = !clientName.value.trim();
+                }, 300);
+            });
+        });
+    </script>
+
+    <script>
+        // Terms of Service acknowledgment handling
+        function acknowledgeTos() {
+            localStorage.setItem('tosAcknowledged', 'true');
+            document.getElementById('tosModal').classList.remove('show');
+
+        }
+        
+        function declineTos() {
+            // Redirect to a neutral page or display a message
+            window.location.href = '../about/';
+        }
+
+        // Show popups in correct order
+        document.addEventListener('DOMContentLoaded', function() {
+            // First check if ToS needs to be shown
+            if (!localStorage.getItem('tosAcknowledged')) {
+                document.getElementById('tosModal').classList.add('show');
+            } 
+        });
+    </script>
+</body>
+</html> 

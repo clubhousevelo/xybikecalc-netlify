@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H1TXBTLXDW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-H1TXBTLXDW');
+    </script>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Seatpost Calculator - Calculate setback, effective seat tube angle, BB to rail distance, and exposed seatpost length for your bike setup.">
+    <meta name="keywords" content="seatpost calculator, bike fit, bicycle fitting, saddle position, seat tube angle, setback, bike geometry">
+    <meta name="author" content="XY Bike Calc">
+    <meta name="robots" content="index, follow">
+    <title>Seatpost Calculator - XY Bike Calc</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://cdnjs.cloudflare.com https://apis.google.com https://www.googletagmanager.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://www.google-analytics.com; connect-src 'self' https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://sheets.googleapis.com https://*.googleapis.com https://www.google-analytics.com https://analytics.google.com;">
+        <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <style>
+        .seatpost-calculator {
+            max-width: 300px;
+            margin: 0 auto;
+
+        }
+
+        .input-card {
+            background: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.35rem;
+            gap: 0.75rem;
+        }
+
+        .input-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .input-row label {
+            min-width: 130px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .input-row input {
+            width: 65px;
+            padding: 0.4rem 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        .input-row input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
+        }
+
+        .input-row span {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            min-width: 25px;
+        }
+
+        .clear-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .clear-button {
+            background: transparent;
+            color: var(--danger-color, #dc3545);
+            border: 1px solid var(--danger-color, #dc3545);
+            border-radius: 6px;
+            padding: 0rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .clear-button:hover {
+            background: var(--danger-color, #dc3545);
+            color: white;
+        }
+
+        .clear-button:active {
+            transform: translateY(1px);
+        }
+
+        .slider-row {
+            margin-bottom: 0.5rem;
+        }
+
+        .slider-row input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--border-color);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .slider-row input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 14px;
+            border-radius: 8px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: 2px solid var(--card-background);
+        }
+
+        .slider-row input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 14px;
+            border-radius: 8px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: 2px solid var(--card-background);
+        }
+
+        .results-card {
+            background: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+        }
+
+        .results-card h3 {
+            color: var(--primary-color);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-row label {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .result-row span {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .calculator-layout {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            justify-content: center;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .visualization-card {
+            background: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            padding: 0rem;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+        }
+
+        #seatpostCanvas {
+            width: 100%;
+            height: 750px;
+            max-width: 450px;
+            min-width:400px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-color);
+        }
+
+        /* Slider labels for min/max values */
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.25rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .slider-label-min,
+        .slider-label-max {
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-layout {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .seatpost-calculator {
+                padding: 1rem;
+            }
+
+            .visualization-card {
+                width: 100%;
+            }
+
+            .input-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .input-row label {
+                min-width: auto;
+            }
+
+            .input-row input {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <button class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    
+    <nav class="mobile-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/" class="active">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button-mobile" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="mobileDarkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="main-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/" class="active">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="darkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1 class="calculator-title">
+                <span class="collapse-indicator">▼</span>
+                Seatpost Calculator
+            </h1>
+            <p class="calculator-description" style="max-width: 727px;margin: 0 auto;">This calculator will help you understand seatpost setback needs, seatpost exposure, and total saddle rail height.</p>
+        </div>
+
+        <div class="calculator-layout">
+            <div class="seatpost-calculator" style="width: 300px; display: flex; flex-direction: column; gap: 1rem;">
+                <div class="input-card">
+                    <h3 style="text-align: center;color: var(--text-color);margin-bottom: 1.5rem;">Input</h3>
+                    <div class="input-row">
+                        <label for="saddleX">Saddle X:</label>
+                        <input type="number" id="saddleX" value="210">
+                        <span>mm</span>
+                    </div>
+                    <div class="slider-row">
+                        <input type="range" id="saddleXSlider" min="100" max="275" value="210" step="1" placeholder="210">
+                    </div>
+                    <div class="slider-labels">
+                        <span class="slider-label-min">100mm</span>
+                        <span class="slider-label-max">275mm</span>
+                    </div>
+                    <div class="input-row">
+                        <label for="saddleY">Saddle Y:</label>
+                        <input type="number" id="saddleY" value="650">
+                        <span>mm</span>
+                    </div>
+                    <div class="slider-row">
+                        <input type="range" id="saddleYSlider" min="400" max="900" value="650" step="1">
+                    </div>
+                    <div class="slider-labels" style="margin-bottom: 1rem;">
+                        <span class="slider-label-min">400mm</span>
+                        <span class="slider-label-max">900mm</span>
+                    </div>
+                    <div class="input-row">
+                        <label for="seatTubeAngle">Seat Tube Angle:</label>
+                        <input type="number" id="seatTubeAngle" placeholder="73" step="0.1">
+                        <span>°</span>
+                    </div>
+                    <div class="slider-row">
+                        <input type="range" id="seatTubeAngleSlider" min="60" max="85" placeholder="73" step="0.1">
+                    </div>
+                    <div class="slider-labels">
+                        <span class="slider-label-min">60°</span>
+                        <span class="slider-label-max">85°</span>
+                    </div>
+                    <div class="input-row">
+                        <label for="seatTubeLength">Seat Tube Length:</label>
+                        <input type="number" id="seatTubeLength" placeholder="0" min="0">
+                        <span>mm</span>
+                    </div>
+                    <div class="slider-row">
+                        <input type="range" id="seatTubeLengthSlider" min="200" max="800" value="0" step="1">
+                    </div>
+                    <div class="slider-labels">
+                        <span class="slider-label-min">200mm</span>
+                        <span class="slider-label-max">800mm</span>
+                    </div>
+                    <div class="clear-button-container">
+                        <button id="clearButton" class="clear-button">Reset</button>
+                    </div>
+                </div>
+
+                <div class="results-card">
+                    <h3 style="text-align: center;color: var(--text-color);">Results</h3>
+                    <div class="result-row">
+                        <label>Setback vs STA:</label>
+                        <span id="setbackVsSTA">-- mm</span>
+                    </div>
+                    <div class="result-row">
+                        <label>Effective STA (eSTA):</label>
+                        <span id="effectiveSTA">-- °</span>
+                    </div>
+                    <div class="result-row">
+                        <label>BB to Rail:</label>
+                        <span id="bbToRail">-- mm</span>
+                    </div>
+                    <div class="result-row">
+                        <label>BB to SRC:</label>
+                        <span id="bbToSRC">-- mm</span>
+                    </div>
+                    <div class="result-row">
+                        <label>Exposed Seatpost:</label>
+                        <span id="exposedSeatpost">-- mm</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="visualization-card">
+                <canvas id="seatpostCanvas"></canvas>
+            </div>
+        </div>
+        
+        <div class="calculator-explanation" style="max-width: 777px; margin: 2rem auto 0; padding: 1.5rem; background: var(--card-background); border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-color);">
+            <h3 style="text-align: center;margin-bottom: 1rem; color: var(--text-color);">Understanding the Results</h3>
+            <p style="text-align: center;margin-bottom: 1rem; color: var(--text-color);"><i>For the purposes of this entire site, any reference to "Setback" or "Saddle X" does not equal the typical "saddle nose to BB" measurement value.<br><br>However, if you know your Saddle Nose to BB measurement, take that number and add it to the horizontal distance between saddle nose and Saddle Rail Center (SRC) to find Saddle X. To find Saddle Y, measure SRC to the floor, then BB center to the floor and subtract those two values.</i></p>
+            <p style="line-height: 1.6; margin-bottom: 0.5rem;"><strong>Setback vs STA:</strong> The horizontal distance between the Saddle Rail Center (SRC) and the center of the clamp if you were using a straight / zero offset seatpost. A negative value indicates the SRC is further back than the clamp, and a positive value indicates the SRC is further forward than the clamp. As an example, if the value is -30mm, you'll more than likely require a 15-20mm setback seatpost to achieve that position.</p>
+            <p style="line-height: 1.6; margin-bottom: 0.5rem;"><strong>Effective STA (eSTA):</strong> The actual seat tube angle created by drawing a line from the bottom bracket to SRC. This combined with "Setback vs STA" can be useful if building a custom bike when deciding if you want a straight or setback seatpost.</p>
+            <p style="line-height: 1.6; margin-bottom: 0.5rem;"><strong>BB to Rail:</strong> The total distance from the bottom bracket to your saddle rails, measured along the seat tube angle. Useful for bikes with Integrated Seat Masts that may require cutting the seat mast, or for determining which seat mast/post length is needed (common situation with Trek bikes). <strong>Note: This value may vary if the saddle rail itself is not horizontal.</strong></p>
+            <p style="line-height: 1.6; margin-bottom: 0.5rem;"><strong>BB to Saddle Rail Center (SRC):</strong> The direct distance from the bottom bracket to the saddle rail center coordinates (Saddle X, Saddle Y). This is calculated using the Pythagorean theorem and represents the straight-line distance from BB to SRC position.</p>
+            <p style="line-height: 1.6; margin-bottom: 0;"><strong>Exposed Seatpost:</strong> The length of seatpost that extends above the frame's seat tube. This is calculated as BB to Rail minus the frame's specified seat tube length. This has implications on seatpost compliance/flex for comfort as well as determining how long of a seatpost may be needed.</p>
+        </div>
+    </div>
+
+    <!-- Custom Scripts -->
+    <script src="../js/api-client.js"></script>
+    <script src="../js/version.js"></script>
+    <script src="../js/seatpost-calculator.js"></script>
+    <script src="../js/dark-mode.js"></script>
+    <script src="../js/mobile-menu.js"></script>
+    <script src="../js/calculator-header.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+    
+
+   
+</body>
+</html> 

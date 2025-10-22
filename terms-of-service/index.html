@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H1TXBTLXDW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-H1TXBTLXDW');
+    </script>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
+    
+    <!-- Immediate dark mode setup -->
+    <script>
+      // Set theme immediately to prevent flash
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="XY Bike Calc - A collection of bike geometry tools for calculating handlebar and saddle positions using X/Y coordinates. Stop guessing, set your next bike up with accurate measurements.">
+    <meta name="keywords" content="bike fit, bicycle fitting, XY bike calculator, bike position calculator, bike prescription, bike geometry, bike geometry calculator, saddle position, handlebar position">
+    <meta name="author" content="XY Bike Calc">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://cdnjs.cloudflare.com https://apis.google.com https://www.googletagmanager.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://www.google-analytics.com; connect-src https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://sheets.googleapis.com https://*.googleapis.com https://www.google-analytics.com https://analytics.google.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <title>Terms of Service - XY Bike Calculator</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .terms-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .terms-container h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .terms-container h3 {
+            color: var(--text-color);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        .terms-container p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .terms-container ul, .terms-container ol {
+            margin: 1rem 0 1rem 2rem;
+            line-height: 1.6;
+        }
+
+        .terms-container li {
+            margin-bottom: 0.5rem;
+        }
+
+        .terms-container strong {
+            font-weight: 600;
+        }
+
+        .terms-container .last-updated {
+            font-style: italic;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            .terms-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <nav class="mobile-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button-mobile" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="mobileDarkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="main-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="darkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1 class="calculator-title">
+                <span class="collapse-indicator">▼</span>
+                Terms of Service
+            </h1>
+            <p class="calculator-description">Please read these terms carefully before using XY Bike Calculator.</p>
+        </div>
+        
+        <div class="terms-container">
+            <h2>Terms of Service Agreement</h2>
+            
+            <p>Welcome to XY Bike Calculator (also referred to as "XY Bike Calc" throughout this document). By accessing or using our website and services, you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use our services.</p>
+            
+            <h3>1. Acceptance of Terms</h3>
+            <p>By creating an account, accessing, or using the XY Bike Calculator (or XY Bike Calc) website ("Service"), you acknowledge that you have read, understood, and agree to be bound by these Terms of Service, regardless of whether you are a registered user or not.</p>
+            
+            <h3>2. Description of Service</h3>
+            <p>XY Bike Calc is a tool designed to help users calculate and compare bike geometry, position measurements, and other cycling-related calculations. The Service may include access to a bike database, calculation tools, and the ability to save configurations.</p>
+            
+            <h3>3. Important Usage Limitations</h3>
+            <p><strong>XY Bike Calc is not bike fitting software and is not intended to be used to address comfort or performance concerns while riding a bicycle.</strong> The calculations and measurements provided are for informational purposes only and should not replace professional bike fitting services. This tool does not provide medical advice, injury prevention guidance, or performance optimization recommendations. Users should consult with qualified bike fitting professionals, coaches, or healthcare providers for addressing any physical comfort issues, performance concerns, or injury prevention related to bicycle riding.</p>
+            
+            <h3>4. Account Registration</h3>
+            <p>To access certain features of the Service, you may need to register for an account. You agree to provide accurate and complete information when creating your account and to update your information to keep it accurate and current. You are responsible for safeguarding your password and for all activities that occur under your account.</p>
+            
+            <h3>5. User Content and Conduct</h3>
+            <p>You are solely responsible for any content or data you submit to the Service. You agree not to use the Service to:</p>
+            <ul>
+                <li>Violate any applicable laws or regulations</li>
+                <li>Impersonate any person or entity</li>
+                <li>Interfere with or disrupt the Service</li>
+                <li>Attempt to gain unauthorized access to the Service</li>
+                <li>Collect data about other users without their consent</li>
+            </ul>
+            
+            <h3>6. Intellectual Property</h3>
+            <p>The Service and all content, features, and functionality are owned by XY Bike Calc and are protected by copyright, trademark, and other intellectual property laws. You may not reproduce, distribute, modify, create derivative works of, publicly display, or use any content from the Service without explicit permission.</p>
+            
+            <h3>7. Bike Database</h3>
+            <p>The bike geometry database provided through the Service is for informational purposes only. While we strive for accuracy, we do not guarantee the completeness, reliability, or accuracy of this data. The information should not be relied upon without independent verification.</p>
+            
+            <h3>8. Disclaimer of Warranties</h3>
+            <p>The Service is provided on an "as is" and "as available" basis. We make no warranties, expressed or implied, regarding the operation of the Service or the information, content, or materials included. We do not guarantee that the Service will be error-free, secure, or uninterrupted.</p>
+            
+            <h3>9. Limitation of Liability</h3>
+            <p>In no event shall XY Bike Calculator be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, or use, arising out of or in connection with the Service, whether based on warranty, contract, tort, or any other legal theory.</p>
+
+            <h3>9a. Donations and Payments</h3>
+            <p>Donations made through XY Bike Calc are processed securely by Stripe, a third-party payment processor. We do not store or have access to your full payment details. All payment transactions are subject to Stripe’s <a href="https://stripe.com/legal" target="_blank" rel="noopener">Terms of Service</a> and <a href="https://stripe.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</p>
+            <p>Donations are considered final and non-refundable.</p>
+            <p>For more information on how your payment information is handled, please review our <a href="/privacy-policy/">Privacy Policy</a>.</p>
+            
+            <h3>10. Modifications to the Service</h3>
+            <p>We reserve the right to modify, suspend, or discontinue the Service (or any part thereof) at any time with or without notice. We shall not be liable to you or any third party for any modification, suspension, or discontinuance of the Service.</p>
+            
+            <h3>11. Changes to Terms</h3>
+            <p>We reserve the right to change these Terms at any time. We will provide notice of significant changes by posting the updated Terms on the Service. Your continued use of the Service after such changes constitutes your acceptance of the new Terms.</p>
+            
+            <h3>12. Termination</h3>
+            <p>We may terminate or suspend your access to all or part of the Service, without notice, for any conduct that we, in our sole discretion, believe violates these Terms or is harmful to other users of the Service, us, or third parties, or for any other reason.</p>
+            
+            <h3>13. Data Protection and Privacy</h3>
+            <p>Your use of the Service is also governed by our Privacy Policy, which explains how we collect, use, and protect your personal data. By using the Service, you acknowledge that you have read and understood our Privacy Policy.</p>
+            <p>We process personal data in accordance with the General Data Protection Regulation (GDPR) and other applicable data protection laws. You have specific rights regarding your personal data, including the right to access, correct, delete, and port your data. For full details, please review our <a href="/privacy-policy/">Privacy Policy</a>.</p>
+
+            <h3>14. GDPR Compliance for EU Users</h3>
+            <p>If you are located in the European Economic Area (EEA), you have additional rights under GDPR:</p>
+            <ul>
+                <li>We will only process your personal data on lawful grounds (consent, contract, legitimate interest, or legal obligation)</li>
+                <li>You can withdraw consent at any time where we rely on consent to process your data</li>
+                <li>You have the right to lodge complaints with your local Data Protection Authority</li>
+                <li>We will respond to data subject requests within 30 days</li>
+                <li>We implement appropriate security measures to protect your data</li>
+            </ul>
+
+            <h3>15. International Users</h3>
+            <p>Our services are operated in the United States, and your data may be transferred to, stored, and processed in the United States or other countries where our service providers operate. By using the Service, you consent to the transfer of your data to countries outside your country of residence, which may have different data protection rules. We ensure appropriate safeguards are in place for such transfers in compliance with GDPR.</p>
+            
+            <h3>16. Governing Law and Dispute Resolution</h3>
+            <p>These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which XY Bike Calculator operates, without regard to its conflict of law provisions.</p>
+            <p>For users in the European Union, nothing in these Terms affects your rights under mandatory consumer protection laws in your country of residence.</p>
+            
+            <h3>17. Contact Information</h3>
+            <p>If you have any questions about these Terms or wish to exercise your data protection rights, please contact us at <a href="mailto:admin@xybikecalc.com">admin@xybikecalc.com</a>.</p>
+            
+            <p class="last-updated">Last Updated: October 13, 2025</p>
+        </div>
+    </div>
+
+    <!-- Custom Scripts -->
+    <script src="../js/version.js"></script>
+    <script src="../js/dark-mode.js"></script>
+    <script src="../js/mobile-menu.js"></script>
+    <script src="../js/calculator-header.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+
+        <!-- Firebase SDK -->
+        <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+        <script src="js/firebase-auth.js"></script>
+</body>
+</html> 

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H1TXBTLXDW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-H1TXBTLXDW');
+    </script>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="XY Bike Calc - A collection of bike geometry tools for calculating handlebar and saddle positions using X/Y coordinates. Stop guessing, set your next bike up with accurate measurements.">
+    <meta name="keywords" content="bike fit, bicycle fitting, XY bike calculator, bike position calculator, bike prescription, bike geometry, bike geometry calculator, saddle position, handlebar position">
+    <meta name="author" content="XY Bike Calc">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://cdnjs.cloudflare.com https://apis.google.com https://www.googletagmanager.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://www.google-analytics.com; connect-src https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://sheets.googleapis.com https://*.googleapis.com https://www.google-analytics.com https://analytics.google.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <title>Welcome - XY Bike Calculator</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .welcome-container {
+            max-width: 700px;
+            margin: 0rem auto;
+            padding: 0rem;
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            box-shadow: 0 0px 0px var(--shadow-color);
+            border: 0px solid var(--border-color);
+        }
+
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 0rem;
+        }
+
+        .tool-card {
+            padding: 1.2rem;
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .tool-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .tool-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .tool-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: opacity 0.2s;
+            margin-top: auto;
+        }
+
+        .tool-button:hover {
+            opacity: 0.9;
+        }
+
+        .guide-section {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .guide-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .guide-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .guide-button {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            font-size: 1.1rem;
+        }
+
+        .guide-button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <button class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <nav class="mobile-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="nav-item-subscribe">
+            <a href="/subscribe.html" style="background: var(--primary-color); color: white; padding: 0.5rem 1rem; border-radius: 6px; font-weight: bold;">Upgrade</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button-mobile" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="mobileDarkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+    <nav class="main-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="nav-item-subscribe">
+            <a href="/subscribe.html" style="background: var(--primary-color); color: white; padding: 0.5rem 1rem; border-radius: 6px; font-weight: bold;">Upgrade</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="darkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1 class="calculator-title">
+                <span class="collapse-indicator">▼</span>
+                Welcome to XY Bike Calc
+            </h1>
+            <p class="calculator-description">Explore our precision tools for bike fitting, geometry calculations, and component selection. Stop guessing, start calculating.</p>
+        </div>
+        <div class="latest-updates-section" style="max-width:700px;margin:2rem auto 1.5rem auto;padding:1.2rem;background-color:var(--card-background);border-radius:8px;border:1px solid var(--border-color);box-shadow:0 2px 8px var(--shadow-color);">
+            <h2 style="font-size:1.5rem;color:var(--primary-color);margin-bottom:0.5rem;text-align:center;margin-top:-8px;">Latest Updates</h2>
+            
+            <div style="margin-bottom:1rem;">
+                <div style="font-size:1rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.5rem;text-align:center;">September 17, 2025</div>
+                <ul style="color:var(--text-color);font-size:1rem;line-height:1.6;margin-left:1.5rem;margin-bottom:0.5rem;">
+                    <li>Updated the database and position calculators to incorporate stock cockpit and max spacer values when provided by the manufacturer. These values are highlighted in yellow in the XY Position Calculator and Bike Position Simulator</li>
+                    <li>Added the ability to add a second bike to Bike Position Simulator to overlay a second bike/position for visual comparison</li>
+                    <li>Added "Frame Material" as a filterable option in the Bike Search</li>
+                    <li>Corrected BB to Rail calculation in XY Position Calculator (was calculating BB to SRC)</li>                
+                    <li>Added a section for Product Manuals currently supplied by manufacturers for easy reference</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="welcome-container">
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">⿹</div>
+                    <h3 class="tool-title">X/Y Position Calculator</h3>
+                    <p class="tool-description">Calculate precise handlebar positions on any bike and compare multiple configurations at the same time.</p>
+                    <a href="/xy-position-calculator/" class="tool-button">Open XY Position Calculator</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-icon">🎯</div>
+                    <h3 class="tool-title">Bike Position Simulator</h3>
+                    <p class="tool-description">Full bike visualization combining handlebar position, saddle position, and seatpost analysis in one comprehensive simulator.</p>
+                    <a href="/position-simulator/" class="tool-button">Open Bike Position Simulator</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-icon">📐</div>
+                    <h3 class="tool-title">Stack & Reach Calculator</h3>
+                    <p class="tool-description">Convert handlebar X/Y coordinates to frame measurements. Determine stack and reach values needed to achieve your desired position.</p>
+                    <a href="/stack-reach-calculator/" class="tool-button">Open Stack & Reach Calculator</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <img src="images/saddle.png" alt="Saddle" style="width: 60px; height: 30px; object-fit: contain;">
+                    </div>
+                    <h3 class="tool-title">Seatpost Calculator</h3>
+                    <p class="tool-description">Calculate seatpost length, setback, and analyze saddle positioning for optimal bike fit.</p>
+                    <a href="/seatpost-calculator/" class="tool-button">Open Seatpost Calculator</a>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-icon">🔢</div>
+                    <h3 class="tool-title">Stem Calculator</h3>
+                    <p class="tool-description">Calculate and compare the effect of different stem configurations.</p>
+                    <a href="/stem-calculator/" class="tool-button">Open Stem Calculator</a>
+                </div>
+
+
+                <div class="tool-card">
+                    <div class="tool-icon">🔍</div>
+                    <h3 class="tool-title">Bike Search</h3>
+                    <p class="tool-description">Search our database of bikes based on your desired Stack and Reach figures.</p>
+                    <a href="/bike-search/" class="tool-button">Search Bikes</a>
+                </div>
+            </div>
+
+            <div class="guide-section" style="margin-bottom:1.5rem;">
+                <h3 class="guide-title">New to XY Bike Calc?</h3>
+                <p class="guide-description">Our guide will help define what "XY" values mean so you can get the most out of our powerful yet simple XY Position Calculator.</p>
+                <a href="/guide/" class="guide-button">Read the Guide</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/version.js"></script>
+    <script src="js/dark-mode.js"></script>
+    <script src="js/mobile-menu.js"></script>
+    <script src="js/calculator-header.js"></script>
+    <script src="js/firebase-auth.js"></script>
+   
+</body>
+</html> 

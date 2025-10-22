@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H1TXBTLXDW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-H1TXBTLXDW');
+    </script>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="XY Bike Calc - A collection of bike geometry tools for calculating handlebar and saddle positions using X/Y coordinates. Stop guessing, set your next bike up with accurate measurements.">
+    <meta name="keywords" content="bike fit, bicycle fitting, XY bike calculator, bike position calculator, bike prescription, bike geometry, bike geometry calculator, saddle position, handlebar position">
+    <meta name="author" content="XY Bike Calc">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://cdnjs.cloudflare.com https://apis.google.com https://www.googletagmanager.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://www.google-analytics.com; connect-src https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://sheets.googleapis.com https://*.googleapis.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <title>Changelog - XY Bike Calculator</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .changelog-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .changelog-container h2 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .changelog-container .version-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .changelog-container ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 2rem;
+        }
+
+        .changelog-container li {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .changelog-container li::before {
+            content: "•";
+            color: var(--primary-color);
+            position: absolute;
+            left: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .changelog-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <nav class="mobile-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/" class="active">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button-mobile" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="mobileDarkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="main-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/" class="active">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="darkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1 class="calculator-title">
+                <span class="collapse-indicator">▼</span>
+                Changelog
+            </h1>
+            <p class="calculator-description">A detailed history of updates and changes to XY Bike Calc.</p>
+        </div>
+
+        <div class="changelog-container">
+
+            <h2>Version 1.6.1</h2>
+            <div class="version-date">September 17, 2025</div>
+            <ul>
+                <li>Updated the database and position calculators to incorporate stock cockpit and max spacer values when provided by the manufacturer. These values are highlighted in yellow in the XY Position Calculator and Bike Position Simulator</li>
+                <li>Added the ability to add a second bike to Bike Position Simulator to overlay a second bike/position for visual comparison</li>
+                <li>Added "Frame Material" as a filterable option in the Bike Search</li>
+                <li>Corrected BB to Rail calculation in XY Position Calculator (was calculating BB to SRC)</li>                
+                <li>Added a section for Product Manuals currently supplied by manufacturers for easy reference</li>
+            </ul>
+
+            <h2>Version 1.6</h2>
+            <div class="version-date">August 20, 2025</div>
+            <ul>
+                <li>Created new "Bike Position Simulator" to help users visualize both saddle and handlebar positions. This calculates and displays Cartesian and polar coordinates of the frame, saddle, and handlebar</li>
+                <li>Added "Headset Height" value inputs to XY Position Calculator, Stack & Reach Calculator, and Bike Position Simulator to differentiate between spacers and headset/transition spacer stack</li>
+                <li>Updated "Bike Search" with sliders, brand filter, and Stack/Reach Ratio filter. Added Stack/Reach Ratio to the results table. Bikes can now be added to XY Position Calculator directly from the Bike Search results table</li>
+            </ul>
+
+            <h2>Version 1.5.2</h2>
+            <div class="version-date">July 31, 2025</div>
+            <ul>
+                <li>Fixed a bug in the XY Position Calculator visual where 0° stem angle was treated as no value and defaulted to -6°</li>
+                <li>Redrew the saddle image in the Seatpost Calculator to be shorter in height</li>
+                <li>Added "BB to Saddle XY" calculation to the Seatpost Calculator to differentiate it from "BB to Rail", which is measured along the STA</li>
+            </ul>
+
+            <h2>Version 1.5.1</h2>
+            <div class="version-date">July 30, 2025</div>
+            <ul>
+                <li>Added a "Notes" section to each bike configuration in the XY Position Calculator to allow for additional notes about that particular bike. This will be saved to client profiles and will show up in the Print document</li>
+            </ul>
+
+            <h2>Version 1.5</h2>
+            <div class="version-date">July 28, 2025</div>
+            <ul>
+                <li>Created a new separate Seatpost Calculator with a visual aid to help calculate seatpost length, angle, and other values</li>
+                <li>Renamed "HX/HY to Frame Calculator" to "Stack & Reach Calculator" and updated the calculator to include sliders for input value adjustment and added a visual aid to the calculator</li>
+            </ul>
+
+            <h2>Version 1.4.2</h2>
+            <div class="version-date">July 22, 2025</div>
+            <ul>
+                <li>Added a visual aid to the XY Position Calculator to help visualize and comparethe calculated handlebar positions</li>
+                <li>Added a 'Donate' page to support the site 🙏</li>
+            </ul>
+
+            <h2>Version 1.4.1</h2>
+            <div class="version-date">July 7, 2025</div>
+            <ul>
+                <li>Restructured site directories and created a new start page</li>
+            </ul>
+
+            <h2>Version 1.4</h2>
+            <div class="version-date">March 20, 2025</div>
+            <ul>
+                <li>Moved the rider information section from the top to the left column of the XY Position Calculator. Added a toggle to collapse/expand the section to create more real estate for bike comparisons</li>
+                <li>Added a "Component Notes" section to the client profiles to note other details about the equipment used or planned to be used</li>
+                <li>Added hover text to XY Position Calculator, Stem Calculator, and Stack & Reach Calculator to explain what or how values are calculated/measured</li>
+                <li>Reformatted the Print Results page to include this new component notes section</li>
+                <li>Resized and repositioned stem comparison visual in Stem Calculator for easier viewing and to prevent deformation of the graph on mobile devices</li>
+            </ul>
+
+            <h2>Version 1.3</h2>
+            <div class="version-date">March 14, 2025</div>
+            <ul>
+                <li>Added Terms of Service</li>
+                <li>Required acknowledgement of Terms of Service and Privacy Policy during account creation</li>
+                <li>Login is now required to access XY Position Calculator database</li>
+                <li>Added "Notes" section to client profiles to note other details about the client or equipment</li>
+                <li>Added a visual aid to the Stem Calculator to more easily visualize stem comparisons</li>
+            </ul>
+
+            <h2>Version 1.2.1</h2>
+            <div class="version-date">March 9, 2025</div>
+            <ul>
+                <li>Added "Guide" page to explain how to use the XY Position Calculator</li>
+                <li>Reformatted printed results page to more closely reflect the XY Position Calculator</li>
+                <li>Improved navigation bar code consistency in desktop and mobile views</li>
+            </ul>
+
+            <h2>Version 1.2</h2>
+            <div class="version-date">March 5, 2025</div>
+            <ul>
+                <li>Fixed light/dark mode toggle bug on home page</li>
+                <li>Implemented account creation</li>
+                <li>Client profiles in XY Position Calculator are now saved to the cloud instead of using local browser storage and require login credentials</li>
+                <li>Optimized Load dialog to be optimized for both desktop and mobile views</li>
+                <li>Added Google Analytics tracking</li>
+                <li>Updated Privacy Policy to include Google Analytics information</li>
+                <li>Added user name to print header when available</li>
+                <li>Added site favicon</li>
+            </ul>
+
+            <h2>Version 1.1.1</h2>
+            <div class="version-date">March 1, 2024</div>
+            <ul>
+                <li>Fixed Bike Search table so the results table doesn't resize and cut off text</li>
+                <li>Combined Target Reach/Stack and Acceptable Range inputs into one box</li>
+                <li>Added "About" page</li>
+                <li>Added public Changelog</li>
+                <li>Fixed Dark Mode toggle on XY Position Calculator</li>
+            </ul>
+
+            <h2>Version 1.1</h2>
+            <div class="version-date">March 1, 2024</div>
+            <ul>
+                <li>Added responsiveness to improve the mobile experience</li>
+                <li>Added ability to hide description of calculator tools by clicking page title</li>
+                <li>Added privacy policy</li>
+                <li>Reorganized css</li>
+            </ul>
+
+            <h2>Version 1.0</h2>
+            <div class="version-date">February 28, 2024</div>
+            <ul>
+                <li>Initial release</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="../js/version.js"></script>
+    <script src="../js/dark-mode.js"></script>
+    <script src="../js/mobile-menu.js"></script>
+    <script src="../js/calculator-header.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+    <script src="../js/calculator.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="js/firebase-auth.js"></script>
+</body>
+</html> 
