@@ -5798,7 +5798,7 @@ class BikeDatabase {
         const range = 'A:P';  // Use same range as other calculators
         
         try {
-            const response = await fetch('/.netlify/functions/sheets-api', {
+            const response = await fetch('/netlify/functions/sheets-api', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

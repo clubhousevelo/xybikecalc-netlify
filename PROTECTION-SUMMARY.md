@@ -52,7 +52,7 @@ Backend Function calculates → Returns results → Frontend displays
 1. User changes bike parameters
 2. `updateCalculations()` is triggered
 3. If `window.USE_BACKEND_CALC === true`:
-   - Sends all bike data to `/.netlify/functions/calculator`
+   - Sends all bike data to `/netlify/functions/calculator`
    - Backend performs ALL calculations
    - Returns complete results including visualization coords
    - Frontend stores results in `bike._server*` properties
@@ -89,7 +89,7 @@ Backend Function calculates → Returns results → Frontend displays
 ### Verify Backend is Being Used
 1. Open browser dev tools → Network tab
 2. Use the XY Position Calculator
-3. Look for requests to `/.netlify/functions/calculator`
+3. Look for requests to `/netlify/functions/calculator`
 4. If you see these requests, backend is active
 
 ### Verify Calculations are Hidden

@@ -490,7 +490,7 @@ class BikeSearch {
         const range = 'A:P';
         
         try {
-            const response = await fetch('/.netlify/functions/sheets-api', {
+            const response = await fetch('/netlify/functions/sheets-api', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1863,7 +1863,7 @@ class BikeDatabase {
         const range = 'A:P';  // Updated range to include stem configuration and headset columns
         
         try {
-            const response = await fetch('/.netlify/functions/sheets-api', {
+            const response = await fetch('/netlify/functions/sheets-api', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
