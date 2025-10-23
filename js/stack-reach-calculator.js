@@ -1,6 +1,9 @@
 class HXHYCalculator {
     constructor() {
         this.handlebarX = document.getElementById('handlebarX');
+        
+        // Create debounced calculator (300ms delay)
+        this.debouncedCalculate = OptimizedAPIClient.createDebouncedCalculator(300);
         this.handlebarY = document.getElementById('handlebarY');
         this.headTubeAngle = document.getElementById('headTubeAngle');
         this.stemHeight = document.getElementById('stemHeight');
@@ -111,7 +114,8 @@ class HXHYCalculator {
                 slider.addEventListener('input', () => {
                     // Update corresponding input field
                     inputs[index].value = slider.value;
-                    this.calculate();
+                    // Use debounced calculation for better performance
+                    this.debouncedCalculate('stack-reach', this.getCalculationData());
                     this.updateVisualization();
                     this.saveData();
                 });
@@ -622,12 +626,10 @@ class HXHYCalculator {
         this.saveData();
     }
 
-    async calculate() {
+    getCalculationData() {
         // Check if handlebar coordinates are empty
         if (!this.handlebarX.value || !this.handlebarY.value) {
-            this.frameReach.textContent = '-- mm';
-            this.frameStack.textContent = '-- mm';
-            return;
+            return null;
         }
 
         // Get all input values
@@ -642,6 +644,25 @@ class HXHYCalculator {
 
         // Check if any value is NaN
         if ([handlebarX, handlebarY, hta, stemLength, stemAngle, stemHeight, spacerHeight, headsetHeight].some(isNaN)) {
+            return null;
+        }
+
+        return {
+            handlebarX,
+            handlebarY,
+            headTubeAngle: hta,
+            stemHeight,
+            stemLength,
+            stemAngle,
+            spacerHeight,
+            headsetHeight
+        };
+    }
+
+    async calculate() {
+        const data = this.getCalculationData();
+        
+        if (!data) {
             this.frameReach.textContent = '-- mm';
             this.frameStack.textContent = '-- mm';
             return;
@@ -649,16 +670,7 @@ class HXHYCalculator {
 
         try {
             // Use server-side calculation only
-            const result = await APIClient.callCalculator('stack-reach', {
-                handlebarX,
-                handlebarY,
-                headTubeAngle: hta,
-                stemHeight,
-                stemLength,
-                stemAngle,
-                spacerHeight,
-                headsetHeight
-            });
+            const result = await APIClient.callCalculator('stack-reach', data);
 
             // Update display
             this.frameReach.textContent = result.frameReach;
