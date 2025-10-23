@@ -79,7 +79,7 @@ To test locally with Netlify CLI:
 
 1. Install Netlify CLI: `npm install -g netlify-cli`
 2. Run: `netlify dev`
-3. The functions will be available at `http://localhost:8888/secret_sauce/functions/`
+3. The functions will be available at `http://localhost:8888/.netlify/functions/`
 
 ## Security Benefits
 

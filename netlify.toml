@@ -7,8 +7,8 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "/secret_sauce/functions/:splat"
+  to = "/.netlify/functions/:splat"
   status = 200
 
 [functions]
-  directory = "secret_sauce/functions"
+  directory = ".netlify/functions"

@@ -108,8 +108,8 @@ handlebarX = result.handlebarX; // Just receives the number
 1. **Open browser dev tools → Network tab**
 2. Use any calculator
 3. You should see:
-   - ✅ POST requests to `/secret_sauce/functions/calculator`
-   - ✅ POST requests to `/secret_sauce/functions/sheets-api`
+   - ✅ POST requests to `/.netlify/functions/calculator`
+   - ✅ POST requests to `/.netlify/functions/sheets-api`
    - ❌ NO direct requests to `sheets.googleapis.com`
 
 4. **Open browser dev tools → Console**
