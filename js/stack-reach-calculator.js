@@ -102,8 +102,35 @@ class HXHYCalculator {
                 if (sliders[index]) {
                     sliders[index].value = input.value;
                 }
-                this.calculate();
+                
+                // Get current data for immediate calculation
+                const data = this.getCalculationData();
+                
+                // Update visualization immediately for responsive UI
                 this.updateVisualization();
+                
+                // Calculate and display results immediately using frontend calculation
+                if (data) {
+                    const result = this.calculateStackReachFrontend(data);
+                    if (result) {
+                        this.frameReach.textContent = result.frameReach;
+                        this.frameStack.textContent = result.frameStack;
+                    }
+                } else {
+                    this.frameReach.textContent = '-- mm';
+                    this.frameStack.textContent = '-- mm';
+                }
+                
+                // Use debounced backend calculation for validation (optional)
+                this.debouncedCalculate('stack-reach', data).then(result => {
+                    if (result) {
+                        // Backend calculation completed - could be used for validation
+                        console.log('Backend validation completed');
+                    }
+                }).catch(error => {
+                    console.error('Debounced calculation error:', error);
+                });
+                
                 this.saveData();
             });
         });
@@ -114,9 +141,35 @@ class HXHYCalculator {
                 slider.addEventListener('input', () => {
                     // Update corresponding input field
                     inputs[index].value = slider.value;
-                    // Use debounced calculation for better performance
-                    this.debouncedCalculate('stack-reach', this.getCalculationData());
+                    
+                    // Get current data for immediate calculation
+                    const data = this.getCalculationData();
+                    
+                    // Update visualization immediately for responsive UI
                     this.updateVisualization();
+                    
+                    // Calculate and display results immediately using frontend calculation
+                    if (data) {
+                        const result = this.calculateStackReachFrontend(data);
+                        if (result) {
+                            this.frameReach.textContent = result.frameReach;
+                            this.frameStack.textContent = result.frameStack;
+                        }
+                    } else {
+                        this.frameReach.textContent = '-- mm';
+                        this.frameStack.textContent = '-- mm';
+                    }
+                    
+                    // Use debounced backend calculation for validation (optional)
+                    this.debouncedCalculate('stack-reach', data).then(result => {
+                        if (result) {
+                            // Backend calculation completed - could be used for validation
+                            console.log('Backend validation completed');
+                        }
+                    }).catch(error => {
+                        console.error('Debounced calculation error:', error);
+                    });
+                    
                     this.saveData();
                 });
             }
@@ -656,6 +709,50 @@ class HXHYCalculator {
             stemAngle,
             spacerHeight,
             headsetHeight
+        };
+    }
+
+    // Frontend calculation for immediate display
+    calculateStackReachFrontend(data) {
+        if (!data) return null;
+
+        const {
+            handlebarX,
+            handlebarY,
+            headTubeAngle,
+            stemHeight,
+            stemLength,
+            stemAngle,
+            spacerHeight,
+            headsetHeight
+        } = data;
+
+        if (!handlebarX || !handlebarY) {
+            return {
+                frameReach: '-- mm',
+                frameStack: '-- mm'
+            };
+        }
+
+        // Convert angles to radians
+        const htaRad = (180 - headTubeAngle) * Math.PI / 180;
+        const stemRad = (90 - headTubeAngle + stemAngle) * Math.PI / 180;
+
+        // Calculate stem center position
+        const stemCenterX = (headsetHeight + spacerHeight + stemHeight/2) * Math.cos(htaRad);
+        const stemCenterY = (headsetHeight + spacerHeight + stemHeight/2) * Math.sin(htaRad);
+
+        // Calculate stem clamp position
+        const clampX = stemLength * Math.cos(stemRad);
+        const clampY = stemLength * Math.sin(stemRad);
+
+        // Calculate frame coordinates
+        const frameReachValue = Math.round(handlebarX - (stemCenterX + clampX));
+        const frameStackValue = Math.round(handlebarY - (stemCenterY + clampY));
+
+        return {
+            frameReach: `${frameReachValue} mm`,
+            frameStack: `${frameStackValue} mm`
         };
     }
 
