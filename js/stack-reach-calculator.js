@@ -3,7 +3,15 @@ class HXHYCalculator {
         this.handlebarX = document.getElementById('handlebarX');
         
         // Create debounced calculator (300ms delay)
-        this.debouncedCalculate = OptimizedAPIClient.createDebouncedCalculator(300);
+        this.debouncedCalculate = DebounceUtils.debounce(async (calculationType, data) => {
+            try {
+                const result = await APIClient.callCalculator(calculationType, data);
+                return result;
+            } catch (error) {
+                console.error('Debounced calculation error:', error);
+                return null;
+            }
+        }, 300);
         this.handlebarY = document.getElementById('handlebarY');
         this.headTubeAngle = document.getElementById('headTubeAngle');
         this.stemHeight = document.getElementById('stemHeight');
