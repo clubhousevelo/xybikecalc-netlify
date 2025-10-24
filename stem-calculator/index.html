@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H1TXBTLXDW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-H1TXBTLXDW');
+    </script>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="XY Bike Calc - Stem Calculator - Calculate and compare multiple stem configurations.">
+    <meta name="keywords" content="stem calculator, yojimg.net, bike fit, bicycle fitting, XY bike calculator, bike position calculator, bike prescription, bike geometry, bike geometry calculator">
+    <meta name="author" content="XY Bike Calc">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://cdnjs.cloudflare.com https://apis.google.com https://www.googletagmanager.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://www.google-analytics.com; connect-src 'self' https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://sheets.googleapis.com https://*.googleapis.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <title>Stem Calculator - Compare Stem Configurations</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        :root {
+            --reference-stem-color: #0078D7;
+            --comparison-stem-color: #E81123;
+            --steerer-tube-color: #505050;
+            --spacer-color: #A0A0A0;
+            --handlebar-color: #333333;
+        }
+        
+        [data-theme="dark"] {
+            --reference-stem-color: #4CC2FF;
+            --comparison-stem-color: #FF7066;
+            --steerer-tube-color: #A0A0A0;
+            --spacer-color: #CCCCCC;
+            --handlebar-color: #EEEEEE;
+        }
+        
+        .stem-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .stem-box {
+            position: relative;
+        }
+        .delete-stem {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: var(--error-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .add-stem-btn {
+            margin-top: 15px;
+            padding: 0px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;;
+        }
+        .reset-all-btn {
+            margin-left: 10px;
+            margin-top: 15px; 
+            background-color: transparent; 
+            color: var(--error-color); 
+            border: 1px solid var(--error-color); 
+            padding: 0px 16px; 
+            border-radius: 4px; 
+            cursor: pointer;
+        }
+        .diff-text {
+            font-size: 14px;
+            margin-top: 2px;
+            margin-bottom: 10px;
+        }
+        .diff-text.positive {
+            color: #007AFF;
+        }
+        .diff-text.negative {
+            color: #FF3B30;
+        }
+        .stem-title {
+            margin-bottom: 4px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .title-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 260px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .title-close-btn {
+            background-color: transparent;
+            color: var(--error-color);
+            border: 1px solid var(--error-color);
+            border-radius:20%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            right: 0;
+            margin-bottom:-8px;
+        }
+        .calculator-description {
+            text-align: center;
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .stem-input-group {
+            background-color: var(--card-background);
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            width: 260px;
+        }
+        .results-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .results-group {
+            margin-top: 10px;
+            background-color: var(--card-background);
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            width: 260px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .results-spacer {
+            height: 10px;
+        }
+        .stack-result {
+            margin-top: 0;
+        }
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .stem-visualization-container {
+            margin-top: 30px;
+            text-align: center;
+            max-width: 600px;
+            margin-left: 0px;
+            margin-right: 0px;
+            background-color: var(--bg-color);
+            padding: 0px;
+            border-radius: 8px;
+        }
+        
+        .stem-visualization-container h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+        
+        .stem-canvas-wrapper {
+            margin-bottom: 15px;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+        
+        #stemVisualizationCanvas {
+            background-color: var(--card-background);
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--border-color);
+            display: block;
+            margin: 0 auto;
+        }
+        
+        [data-theme="dark"] #stemVisualizationCanvas {
+            background-color: var(--card-background);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .stem-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 10px;
+        }
+        .color-box {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            border: 1px solid rgba(0,0,0,0.2);
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <button class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <nav class="mobile-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/" class="active">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button-mobile" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="mobileDarkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="main-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/" class="active">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="darkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1 class="calculator-title">
+                <span class="collapse-indicator">▼</span>
+                Stem Calculator
+            </h1>
+            <p class="calculator-description">
+                Use this tool to calculate handlebar positions relative to the head tube based on stem and spacer configurations. Add stems to compare against the first stem.
+            </p>
+        </div>
+        
+        <div class="stem-container" id="stemContainer">
+            <!-- First stem (reference stem) -->
+            <div class="stem-box" data-stem-id="stem-0">
+                <div class="title-container">
+                    <h3 class="stem-title">Stem 1</h3>
+                    <button class="title-close-btn" style="visibility: hidden;">×</button>
+                </div>
+                <div class="input-section">
+                    <div class="stem-input-group">
+                        <div class="input-field">
+                            <label for="headTubeAngle-0">Head Tube Angle</label>
+                            <input type="number" id="headTubeAngle-0" class="stem-input" data-stem-id="0" step="0.1" min="60" max="90" value="73.0">
+                            <span>°</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="stemHeight-0" class="tooltip">Stem Height<span class="tooltip-text">Measured height of the stem where it clamps the steerer tube. Typically ranges from 38-42mm.</span></label>
+                            <input type="number" id="stemHeight-0" class="stem-input" data-stem-id="0" step="1" min="0" value="40">
+                            <span>mm</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="stemLength-0">Stem Length</label>
+                            <input type="number" id="stemLength-0" class="stem-input" data-stem-id="0" step="1" min="0" value="100">
+                            <span>mm</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="stemAngle-0">Stem Angle</label>
+                            <input type="number" id="stemAngle-0" class="stem-input" data-stem-id="0" step="1" min="-45" max="45" value="-6">
+                            <span>°</span>
+                        </div>
+                        <div class="input-field">
+                            <label for="spacerHeight-0" class="tooltip">Spacer Height<span class="tooltip-text">Typically include everything between the frame and bottom of the stem, such as headset bearing cover</span></label>
+                            <input type="number" id="spacerHeight-0" class="stem-input" data-stem-id="0" step="1" min="0" value="20">
+                            <span>mm</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="results-container">
+                    <div class="results-group">
+                        <div id="effectiveReach-0">Run (X): 0 mm</div>
+                        <div class="results-spacer"></div>
+                        <div id="effectiveStack-0" class="stack-result">Rise (Y): 0 mm</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="buttons-container">
+            <button id="addStemBtn" class="add-stem-btn">Add Stem</button>
+            <button id="resetAllBtn" class="reset-all-btn">Reset All</button>
+        </div>
+        
+        <!-- Stem Visualization -->
+         <center>
+        <div class="stem-visualization-container";>
+            <h3>Stem Comparison Visual</h3>
+            <div class="stem-canvas-wrapper">
+                <canvas id="stemVisualizationCanvas" width="350" height="300" 
+                       onload="console.log('Canvas loaded')"
+                       style="min-height: 300px;min-width: 350px;"></canvas>
+            </div>
+            <div class="stem-legend">
+                <!-- Legend items will be generated dynamically by JavaScript -->
+            </div>
+        </div>
+        </center>
+    </div>
+
+    <script src="../js/api-client.js"></script>
+    <script src="../js/debounce-utils.js"></script>
+    <script src="../js/version.js"></script>
+    <script src="../js/stem-calculator.js"></script>
+    <script src="../js/dark-mode.js"></script>
+    <script src="../js/mobile-menu.js"></script>
+    <script src="../js/calculator-header.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+</body>
+</html>
