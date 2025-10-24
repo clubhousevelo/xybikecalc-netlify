@@ -1,15 +1,15 @@
 // Centralized debounce configuration
 const DEBOUNCE_CONFIG = {
     // Default debounce delay in milliseconds
-    DEFAULT_DELAY: 300,
+    DEFAULT_DELAY: 1000,
     
     // Calculator-specific delays (optional overrides)
     CALCULATORS: {
-        'xy-position': 300,
-        'stack-reach': 300,
-        'seatpost': 300,
-        'stem': 300,
-        'position-simulator': 300
+        'xy-position': 1000,
+        'stack-reach': 1000,
+        'seatpost': 1000,
+        'stem': 1000,
+        'position-simulator': 1000
     }
 };
 
