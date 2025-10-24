@@ -20,13 +20,13 @@ let stemCount = 1; // Start with one stem
 let baseX = 0;
 let baseY = 0;
 
-// Create debounced version of calculateStemDimensions
+// Create debounced version of calculateStemDimensions using centralized config
 const debouncedCalculateStemDimensions = DebounceUtils.debounce(async (stemId) => {
     await calculateStemDimensions(stemId);
     if (stemId > 0) {
         highlightDifferences(stemId);
     }
-}, 300);
+}, DebounceUtils.getDelay('stem'));
 
 
 // Real-world component dimensions (in mm)

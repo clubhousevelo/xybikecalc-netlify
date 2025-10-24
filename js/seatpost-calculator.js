@@ -1,9 +1,9 @@
 class SeatpostCalculator {
     constructor() {
-        // Create debounced update function (300ms delay)
+        // Create debounced update function using centralized config
         this.debouncedUpdate = DebounceUtils.debounce(async () => {
             await this.calculateResults();
-        }, 300);
+        }, DebounceUtils.getDelay('seatpost'));
         
         this.initialize();
     }

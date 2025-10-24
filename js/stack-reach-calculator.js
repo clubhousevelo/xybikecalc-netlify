@@ -2,7 +2,7 @@ class HXHYCalculator {
     constructor() {
         this.handlebarX = document.getElementById('handlebarX');
         
-        // Create debounced update function (300ms delay)
+        // Create debounced update function using centralized config
         this.debouncedUpdate = DebounceUtils.debounce(async () => {
             try {
                 const data = this.getCalculationData();
@@ -35,7 +35,7 @@ class HXHYCalculator {
             } catch (error) {
                 console.error('Debounced update error:', error);
             }
-        }, 300);
+        }, DebounceUtils.getDelay('stack-reach'));
         this.handlebarY = document.getElementById('handlebarY');
         this.headTubeAngle = document.getElementById('headTubeAngle');
         this.stemHeight = document.getElementById('stemHeight');

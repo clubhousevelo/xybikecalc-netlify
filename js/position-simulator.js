@@ -4,6 +4,11 @@ class BikeCalculator {
         this.bikes = [];
         this.bikeCount = 0;
         
+        // Create debounced update function using centralized config
+        this.debouncedUpdate = DebounceUtils.debounce(async () => {
+            await this.updateCalculations();
+        }, DebounceUtils.getDelay('position-simulator'));
+        
         // Initialize database and event listeners
         this.initialize();
     }
@@ -338,8 +343,8 @@ class BikeCalculator {
         ['targetSaddleX', 'targetSaddleY', 'targetHandlebarX', 'targetHandlebarY', 'handlebarReachUsed']
             .forEach(id => {
                 document.getElementById(id).addEventListener('input', () => {
-                    // When target positions change, update ALL bike cards
-                    this.updateCalculations();
+                    // When target positions change, trigger debounced update
+                    this.debouncedUpdate();
                     this.saveData();
 
                 });
@@ -941,6 +946,8 @@ class BikeCalculator {
         card.querySelectorAll('input[type="number"]').forEach(input => {
             input.addEventListener('input', () => {
                 this.updateBikeData(bikeData.id);
+                // Trigger debounced update for all bikes
+                this.debouncedUpdate();
             });
         });
         
@@ -962,6 +969,8 @@ class BikeCalculator {
                     }
                     
                     this.updateBikeData(bikeData.id);
+                    // Trigger debounced update for all bikes
+                    this.debouncedUpdate();
                     this.saveData();
                 }
             });
@@ -978,6 +987,8 @@ class BikeCalculator {
                     }
                     
                     this.updateBikeData(bikeData.id);
+                    // Trigger debounced update for all bikes
+                    this.debouncedUpdate();
                     this.saveData();
                 }
             });
@@ -994,6 +1005,8 @@ class BikeCalculator {
                     }
                     
                     this.updateBikeData(bikeData.id);
+                    // Trigger debounced update for all bikes
+                    this.debouncedUpdate();
                     this.saveData();
                 }
             });
@@ -1010,6 +1023,8 @@ class BikeCalculator {
                     }
                     
                     this.updateBikeData(bikeData.id);
+                    // Trigger debounced update for all bikes
+                    this.debouncedUpdate();
                     this.saveData();
                 }
             });
@@ -1026,6 +1041,8 @@ class BikeCalculator {
                     }
                     
                     this.updateBikeData(bikeData.id);
+                    // Trigger debounced update for all bikes
+                    this.debouncedUpdate();
                     this.saveData();
                 }
             });
@@ -1036,6 +1053,8 @@ class BikeCalculator {
         if (notesTextareaListener) {
             notesTextareaListener.addEventListener('input', () => {
                 this.updateBikeData(bikeData.id);
+                // Trigger debounced update for all bikes
+                this.debouncedUpdate();
             });
         }
 
@@ -1044,6 +1063,10 @@ class BikeCalculator {
             card.querySelectorAll('.manual-inputs input').forEach(input => {
                 input.addEventListener('input', () => {
                     this.updateBikeData(bikeData.id);
+                    // Trigger debounced update for all bikes
+                    this.debouncedUpdate();
+                    // Trigger debounced update for all bikes
+                    this.debouncedUpdate();
                 });
             });
 

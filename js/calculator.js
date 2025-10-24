@@ -4,10 +4,10 @@ class BikeCalculator {
         this.bikes = [];
         this.bikeCount = 0;
         
-        // Create debounced update function (300ms delay)
+        // Create debounced update function using centralized config
         this.debouncedUpdate = DebounceUtils.debounce(async () => {
             await this.updateCalculations();
-        }, 300);
+        }, DebounceUtils.getDelay('xy-position'));
         
         // Initialize database and event listeners
         this.initialize();
@@ -828,6 +828,8 @@ class BikeCalculator {
         if (notesTextareaListener) {
             notesTextareaListener.addEventListener('input', async () => {
                 await this.updateBikeData(bikeData.id);
+                // Trigger debounced update for all bikes
+                this.debouncedUpdate();
             });
         }
 
@@ -836,6 +838,8 @@ class BikeCalculator {
             card.querySelectorAll('.manual-inputs input').forEach(input => {
                 input.addEventListener('input', async () => {
                     await this.updateBikeData(bikeData.id);
+                    // Trigger debounced update for all bikes
+                    this.debouncedUpdate();
                 });
             });
 
@@ -1720,7 +1724,9 @@ class BikeCalculator {
                         stemHeightInput.style.backgroundColor = '';
                     }
                     
-                    await this.updateCalculationsForBike(bikeId);
+                    await this.updateBikeData(bikeId);
+                    // Trigger debounced update for all bikes
+                    this.debouncedUpdate();
                     this.saveData();
                 }
             });
@@ -1737,7 +1743,9 @@ class BikeCalculator {
                         stemLengthInput.style.backgroundColor = '';
                     }
                     
-                    await this.updateCalculationsForBike(bikeId);
+                    await this.updateBikeData(bikeId);
+                    // Trigger debounced update for all bikes
+                    this.debouncedUpdate();
                     this.saveData();
                 }
             });
@@ -1754,7 +1762,9 @@ class BikeCalculator {
                         stemAngleInput.style.backgroundColor = '';
                     }
                     
-                    await this.updateCalculationsForBike(bikeId);
+                    await this.updateBikeData(bikeId);
+                    // Trigger debounced update for all bikes
+                    this.debouncedUpdate();
                     this.saveData();
                 }
             });
@@ -1771,7 +1781,9 @@ class BikeCalculator {
                         spacerHeightInput.style.backgroundColor = '';
                     }
                     
-                    await this.updateCalculationsForBike(bikeId);
+                    await this.updateBikeData(bikeId);
+                    // Trigger debounced update for all bikes
+                    this.debouncedUpdate();
                     this.saveData();
                 }
             });
@@ -1788,7 +1800,9 @@ class BikeCalculator {
                         headsetHeightInput.style.backgroundColor = '';
                     }
                     
-                    await this.updateCalculationsForBike(bikeId);
+                    await this.updateBikeData(bikeId);
+                    // Trigger debounced update for all bikes
+                    this.debouncedUpdate();
                     this.saveData();
                 }
             });
