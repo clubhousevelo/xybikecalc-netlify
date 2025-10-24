@@ -1159,7 +1159,7 @@ class BikeCalculator {
         // Find the index of the bike in the array
         const bikeIndex = this.bikes.findIndex(b => b.id === bikeId);
         if (bikeIndex !== -1) {
-            this.updateCalculationsForBike(bikeId);
+            // Don't call updateCalculationsForBike here - let the debounced version handle it
             this.saveData(); // Save data after any bike update
             this.updateBikeVisualization(); // Update the visualization
         }
