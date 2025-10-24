@@ -2,14 +2,38 @@ class HXHYCalculator {
     constructor() {
         this.handlebarX = document.getElementById('handlebarX');
         
-        // Create debounced calculator (300ms delay)
-        this.debouncedCalculate = DebounceUtils.debounce(async (calculationType, data) => {
+        // Create debounced update function (300ms delay)
+        this.debouncedUpdate = DebounceUtils.debounce(async () => {
             try {
-                const result = await APIClient.callCalculator(calculationType, data);
-                return result;
+                const data = this.getCalculationData();
+                
+                if (!data) {
+                    this.frameReach.textContent = '-- mm';
+                    this.frameStack.textContent = '-- mm';
+                    this.updateVisualization();
+                    return;
+                }
+                
+                // Use frontend calculation for immediate response
+                const result = this.calculateStackReachFrontend(data);
+                if (result) {
+                    this.frameReach.textContent = result.frameReach;
+                    this.frameStack.textContent = result.frameStack;
+                }
+                
+                // Update visualization
+                this.updateVisualization();
+                
+                // Optional: Run backend calculation for validation
+                try {
+                    const backendResult = await APIClient.callCalculator('stack-reach', data);
+                    console.log('Backend validation completed');
+                } catch (error) {
+                    console.error('Backend validation error:', error);
+                }
+                
             } catch (error) {
-                console.error('Debounced calculation error:', error);
-                return null;
+                console.error('Debounced update error:', error);
             }
         }, 300);
         this.handlebarY = document.getElementById('handlebarY');
@@ -111,33 +135,8 @@ class HXHYCalculator {
                     sliders[index].value = input.value;
                 }
                 
-                // Get current data for immediate calculation
-                const data = this.getCalculationData();
-                
-                // Update visualization immediately for responsive UI
-                this.updateVisualization();
-                
-                // Calculate and display results immediately using frontend calculation
-                if (data) {
-                    const result = this.calculateStackReachFrontend(data);
-                    if (result) {
-                        this.frameReach.textContent = result.frameReach;
-                        this.frameStack.textContent = result.frameStack;
-                    }
-                } else {
-                    this.frameReach.textContent = '-- mm';
-                    this.frameStack.textContent = '-- mm';
-                }
-                
-                // Use debounced backend calculation for validation (optional)
-                this.debouncedCalculate('stack-reach', data).then(result => {
-                    if (result) {
-                        // Backend calculation completed - could be used for validation
-                        console.log('Backend validation completed');
-                    }
-                }).catch(error => {
-                    console.error('Debounced calculation error:', error);
-                });
+                // Trigger debounced update (waits 300ms after last input)
+                this.debouncedUpdate();
                 
                 this.saveData();
             });
@@ -150,33 +149,8 @@ class HXHYCalculator {
                     // Update corresponding input field
                     inputs[index].value = slider.value;
                     
-                    // Get current data for immediate calculation
-                    const data = this.getCalculationData();
-                    
-                    // Update visualization immediately for responsive UI
-                    this.updateVisualization();
-                    
-                    // Calculate and display results immediately using frontend calculation
-                    if (data) {
-                        const result = this.calculateStackReachFrontend(data);
-                        if (result) {
-                            this.frameReach.textContent = result.frameReach;
-                            this.frameStack.textContent = result.frameStack;
-                        }
-                    } else {
-                        this.frameReach.textContent = '-- mm';
-                        this.frameStack.textContent = '-- mm';
-                    }
-                    
-                    // Use debounced backend calculation for validation (optional)
-                    this.debouncedCalculate('stack-reach', data).then(result => {
-                        if (result) {
-                            // Backend calculation completed - could be used for validation
-                            console.log('Backend validation completed');
-                        }
-                    }).catch(error => {
-                        console.error('Debounced calculation error:', error);
-                    });
+                    // Trigger debounced update (waits 300ms after last slider movement)
+                    this.debouncedUpdate();
                     
                     this.saveData();
                 });
@@ -188,6 +162,8 @@ class HXHYCalculator {
         if (resetButton) {
             resetButton.addEventListener('click', () => {
                 this.resetToDefaults();
+                // Trigger immediate update after reset
+                this.debouncedUpdate();
             });
         }
     }

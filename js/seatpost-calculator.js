@@ -1,5 +1,10 @@
 class SeatpostCalculator {
     constructor() {
+        // Create debounced update function (300ms delay)
+        this.debouncedUpdate = DebounceUtils.debounce(async () => {
+            await this.calculateResults();
+        }, 300);
+        
         this.initialize();
     }
 
@@ -34,7 +39,8 @@ class SeatpostCalculator {
                     }
                     
                     this.saveValues();
-                    this.calculateResults();
+                    // Trigger debounced update (waits 300ms after last input)
+                    this.debouncedUpdate();
                 });
                 input.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
@@ -49,7 +55,8 @@ class SeatpostCalculator {
                     if (input) {
                         input.value = slider.value;
                         this.saveValues();
-                        this.calculateResults();
+                        // Trigger debounced update (waits 300ms after last slider movement)
+                        this.debouncedUpdate();
                     }
                 });
             }

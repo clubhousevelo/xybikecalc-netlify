@@ -20,6 +20,14 @@ let stemCount = 1; // Start with one stem
 let baseX = 0;
 let baseY = 0;
 
+// Create debounced version of calculateStemDimensions
+const debouncedCalculateStemDimensions = DebounceUtils.debounce(async (stemId) => {
+    await calculateStemDimensions(stemId);
+    if (stemId > 0) {
+        highlightDifferences(stemId);
+    }
+}, 300);
+
 
 // Real-world component dimensions (in mm)
 const STEERER_TUBE_DIAMETER = 28.6; // 1-1/8" steerer tube
@@ -365,8 +373,8 @@ function addNewStem(initialData = null) {
     const newInputs = stemBox.querySelectorAll('input');
     newInputs.forEach(input => {
         input.addEventListener('input', function() {
-            calculateStemDimensions(stemId);
-            highlightDifferences(stemId); // Highlight differences when input changes
+            // Trigger debounced update (waits 300ms after last input)
+            debouncedCalculateStemDimensions(stemId);
             saveStemData(); // Save data when input changes
         });
     });
@@ -857,7 +865,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputs = document.querySelectorAll('.stem-input');
     inputs.forEach(input => {
         input.addEventListener('input', function() {
-            calculateStemDimensions(parseInt(this.dataset.stemId));
+            // Trigger debounced update (waits 300ms after last input)
+            debouncedCalculateStemDimensions(parseInt(this.dataset.stemId));
             autoSaveStemData(); // Auto-save when input changes
         });
     });
