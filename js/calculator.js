@@ -1991,7 +1991,7 @@ class BikeCalculator {
                         });
                     }
                     
-                    this.updateCalculations();
+                    this.debouncedUpdate();
                 } else {
                     // No saved bikes, add default bikes
                     this.addBike();
@@ -3661,7 +3661,7 @@ class BikeCalculator {
         });
 
         // Update calculations
-        this.updateCalculations();
+        this.debouncedUpdate();
         
         // Enable save button
         document.getElementById('saveButton').disabled = false;
@@ -3732,7 +3732,7 @@ class BikeCalculator {
         }
 
         // Update calculations
-        this.updateCalculations();
+        this.debouncedUpdate();
         
         // Enable save button
         document.getElementById('saveButton').disabled = false;
