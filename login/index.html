@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H1TXBTLXDW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-H1TXBTLXDW');
+    </script>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="XY Bike Calc - A collection of bike geometry tools for calculating handlebar and saddle positions using X/Y coordinates. Stop guessing, set your next bike up with accurate measurements.">
+    <meta name="keywords" content="bike fit, bicycle fitting, XY bike calculator, bike position calculator, bike prescription, bike geometry, bike geometry calculator, saddle position, handlebar position">
+    <meta name="author" content="XY Bike Calc">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://cdnjs.cloudflare.com https://apis.google.com https://www.googletagmanager.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://www.google-analytics.com; connect-src https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://sheets.googleapis.com https://*.googleapis.com https://www.google-analytics.com https://analytics.google.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <title>Login - XY Bike Calculator</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .auth-container h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-group input {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .auth-button {
+            padding: 0.25rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .auth-button:hover {
+            opacity: 0.9;
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-toggle a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-toggle a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-error {
+            color: var(--error-color);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            min-height: 1.2rem;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .auth-tab.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .auth-form-container {
+            display: none;
+        }
+
+        .auth-form-container.active {
+            display: block;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--text-secondary);
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .divider::before {
+            margin-right: 0.5rem;
+        }
+
+        .divider::after {
+            margin-left: 0.5rem;
+        }
+        
+        .google-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem;
+            background-color: white;
+            color: #757575;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            gap: 0.5rem;
+            width: 100%;
+            margin-top: 0.5rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .google-button:hover {
+            background-color: #f2f2f2;
+        }
+        
+        .google-button img {
+            width: 18px;
+            height: 18px;
+        }
+        
+        /* Dark mode adjustments for Google button */
+        .dark-mode .google-button {
+            background-color: #2c2c2e;
+            color: #f2f2f2;
+            border-color: #3d3d41;
+        }
+        
+        .dark-mode .google-button:hover {
+            background-color: #3d3d41;
+        }
+
+        /* Terms checkbox styling */
+        .terms-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0.5rem;
+        }
+        
+        .terms-checkbox input[type="checkbox"] {
+            margin-top: 0;
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+        
+        .terms-checkbox label {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            display: inline-block;
+            word-spacing: normal;
+            white-space: normal;
+        }
+        
+        .terms-checkbox a {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: inline;
+        }
+        
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <button class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <nav class="mobile-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button-mobile" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="mobileDarkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="main-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="darkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1 class="calculator-title">
+                <span class="collapse-indicator">▼</span>
+                Account Access
+            </h1>
+            <p class="calculator-description">Sign in to access the database in XY Position Calculator and your saved bike configurations.</p>
+        </div>
+        
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="login-tab">Login</div>
+                <div class="auth-tab" id="signup-tab">Sign Up</div>
+            </div>
+            
+            <div class="auth-form-container active" id="login-form-container">
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <div class="auth-error" id="login-error"></div>
+                    <button type="submit" class="auth-button">Login</button>
+                </form>
+                
+                <div class="auth-toggle">
+                    <a href="#" id="forgot-password-link">Forgot Password?</a>
+                </div>
+            </div>
+            
+            <div class="auth-form-container" id="signup-form-container">
+                <form id="signup-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-confirm-password">Confirm Password</label>
+                        <input type="password" id="signup-confirm-password" required minlength="6">
+                    </div>
+                    <div class="form-group terms-checkbox">
+                        <input type="checkbox" id="terms-agreement" required>
+                        <label for="terms-agreement">I have read and agree to the <a href="/terms-of-service/" target="_blank">Terms of Service</a> and <a href="/privacy-policy/" target="_blank">Privacy Policy</a></label>
+                    </div>
+                    <div class="auth-error" id="signup-error"></div>
+                    <button type="submit" class="auth-button">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="../js/version.js"></script>
+    <script src="../js/dark-mode.js"></script>
+    <script src="../js/mobile-menu.js"></script>
+    <script src="../js/calculator-header.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+    <script>
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginTab = document.getElementById('login-tab');
+            const signupTab = document.getElementById('signup-tab');
+            const loginFormContainer = document.getElementById('login-form-container');
+            const signupFormContainer = document.getElementById('signup-form-container');
+            const forgotPasswordLink = document.getElementById('forgot-password-link');
+            const signupForm = document.getElementById('signup-form');
+            
+            loginTab.addEventListener('click', function() {
+                loginTab.classList.add('active');
+                signupTab.classList.remove('active');
+                loginFormContainer.classList.add('active');
+                signupFormContainer.classList.remove('active');
+            });
+            
+            signupTab.addEventListener('click', function() {
+                signupTab.classList.add('active');
+                loginTab.classList.remove('active');
+                signupFormContainer.classList.add('active');
+                loginFormContainer.classList.remove('active');
+            });
+            
+            if (forgotPasswordLink) {
+                forgotPasswordLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('login-email').value;
+                    const errorElement = document.getElementById('login-error');
+                    
+                    if (!email) {
+                        errorElement.textContent = 'Please enter your email address';
+                        return;
+                    }
+                    
+                    firebase.auth().sendPasswordResetEmail(email)
+                        .then(() => {
+                            errorElement.textContent = 'Password reset email sent!';
+                            errorElement.style.color = 'var(--success-color)';
+                        })
+                        .catch((error) => {
+                            errorElement.textContent = error.message;
+                            errorElement.style.color = 'var(--error-color)';
+                        });
+                });
+            }
+            
+            // Add form submission validation for terms
+            if (signupForm) {
+                signupForm.addEventListener('submit', function(e) {
+                    const termsCheckbox = document.getElementById('terms-agreement');
+                    const errorElement = document.getElementById('signup-error');
+                    
+                    if (!termsCheckbox.checked) {
+                        e.preventDefault();
+                        errorElement.textContent = 'You must agree to the Terms of Service and Privacy Policy';
+                        return false;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

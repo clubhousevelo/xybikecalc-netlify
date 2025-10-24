@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H1TXBTLXDW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-H1TXBTLXDW');
+    </script>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://cdnjs.cloudflare.com https://apis.google.com https://www.googletagmanager.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://www.google-analytics.com; connect-src 'self' https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://sheets.googleapis.com https://*.googleapis.com https://www.google-analytics.com https://analytics.google.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <title>Subscription Successful - XY Bike Calculator</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .success-container {
+            max-width: 600px;
+            margin: 4rem auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .success-card {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-title {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .success-message {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .next-steps {
+            background: var(--background-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .next-steps h3 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .next-steps ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .next-steps li {
+            padding: 0.5rem 0;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .next-steps li::before {
+            content: "🎯";
+            margin-right: 0.5rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-secondary {
+            background: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--hover-bg);
+        }
+
+        @media (max-width: 768px) {
+            .success-container {
+                margin: 2rem auto;
+                padding: 1rem;
+            }
+            
+            .success-card {
+                padding: 2rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="/" class="nav-logo">
+                    <img src="/favicon-32x32.png" alt="XY Bike Calc" class="nav-logo-img">
+                    <span class="nav-logo-text">XY Bike Calc</span>
+                </a>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/xy-position-calculator/" class="nav-link">XY Calculator</a>
+                <a href="/position-simulator/" class="nav-link">Position Simulator</a>
+                <a href="/bike-search/" class="nav-link">Bike Search</a>
+                <a href="/stem-calculator/" class="nav-link">Stem Calculator</a>
+                <div class="theme-toggle-container">
+                    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="success-container">
+            <div class="success-card">
+                <div class="success-icon">🎉</div>
+                <h1 class="success-title">Welcome to Premium!</h1>
+                <p class="success-message">
+                    Your subscription has been successfully activated. You now have access to all premium features including unlimited bike comparisons, rider profiles, and advanced tools.
+                </p>
+
+                <div class="next-steps">
+                    <h3>What's Next?</h3>
+                    <ul>
+                        <li>Access your rider information sidebar in XY Calculator</li>
+                        <li>Compare unlimited bikes from our database</li>
+                        <li>Use the Bike Position Simulator for advanced analysis</li>
+                        <li>Save and load your bike configurations</li>
+                        <li>Generate professional bike fit reports</li>
+                    </ul>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="/xy-position-calculator/" class="btn btn-primary">Start Using XY Calculator</a>
+                    <a href="/position-simulator/" class="btn btn-secondary">Try Position Simulator</a>
+                    <a href="/bike-search/" class="btn btn-secondary">Browse Bike Database</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>XY Bike Calculator</h4>
+                    <p>Professional bike fitting tools for cyclists and bike fitters.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="/about/">About</a></li>
+                        <li><a href="/privacy-policy/">Privacy Policy</a></li>
+                        <li><a href="/terms-of-service/">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 XY Bike Calculator. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/theme-manager.js"></script>
+    
+    <script>
+        // Track successful subscription
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get session ID from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+            
+            if (sessionId && typeof gtag !== 'undefined') {
+                // Track successful purchase
+                gtag('event', 'purchase', {
+                    transaction_id: sessionId,
+                    currency: 'USD',
+                    value: 0 // You can fetch the actual amount from Stripe if needed
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

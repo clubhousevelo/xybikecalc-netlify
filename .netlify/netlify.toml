@@ -1,0 +1,44 @@
+functionsDirectory = "/Users/allenkuo/Desktop/XY Calc/XY Calc/bike-calculator-netlify/.netlify/functions"
+functionsDirectoryOrigin = "config"
+redirectsOrigin = "config"
+plugins = []
+headers = []
+
+[functions]
+
+[functions."*"]
+
+[build]
+publish = "/Users/allenkuo/Desktop/XY Calc/XY Calc/bike-calculator-netlify"
+publishOrigin = "config"
+commandOrigin = "config"
+command = "echo 'No build command needed'"
+functions = "/Users/allenkuo/Desktop/XY Calc/XY Calc/bike-calculator-netlify/.netlify/functions"
+
+[build.environment]
+NODE_VERSION = "18"
+SECRETS_SCAN_OMIT_KEYS = "FIREBASE_API_KEY,FIREBASE_AUTH_DOMAIN,FIREBASE_PROJECT_ID,FIREBASE_STORAGE_BUCKET,FIREBASE_MESSAGING_SENDER_ID,FIREBASE_APP_ID,FIREBASE_MEASUREMENT_ID"
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/:splat"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]

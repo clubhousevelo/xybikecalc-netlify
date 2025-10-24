@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H1TXBTLXDW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-H1TXBTLXDW');
+    </script>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="XY Bike Calc - A collection of bike geometry tools for calculating handlebar and saddle positions using X/Y coordinates. Stop guessing, set your next bike up with accurate measurements.">
+    <meta name="keywords" content="HX HY, bike fit, bicycle fitting, XY bike calculator, bike position calculator, bike prescription, bike geometry, bike geometry calculator, saddle position, handlebar position">
+    <meta name="author" content="XY Bike Calc">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com https://cdnjs.cloudflare.com https://apis.google.com https://www.googletagmanager.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://www.google-analytics.com; connect-src 'self' https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://sheets.googleapis.com https://*.googleapis.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <title>Stack & Reach Calculator - Find Frame Stack and Reach</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .slider-row {
+            margin-bottom: 0.5rem;
+        }
+
+        .slider-row input[type="range"] {
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: transparent;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            border: none;
+        }
+
+        .slider-row input[type="range"]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            border-radius: 2px;
+            background: var(--border-color);
+            cursor: pointer;
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+
+        .slider-row input[type="range"]::-moz-range-track {
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--border-color);
+            cursor: pointer;
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+
+        .slider-row input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 14px;
+            border-radius: 8px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: 2px solid var(--card-background);
+            margin-top: -4px;
+        }
+
+        .slider-row input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 14px;
+            border-radius: 8px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: 2px solid var(--card-background);
+        }
+
+        /* Input field styling to match Seatpost Calculator */
+        .input-field label {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .input-field input {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .input-field input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
+        }
+
+        .input-field span {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Result field styling to match Seatpost Calculator */
+        .result-field {
+            box-shadow: none;
+            border: none;
+            background: transparent;
+        }
+
+        .result-field label {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .result-field span {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .button-group {
+            margin: 0rem 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reset-button {
+            background: transparent;
+            border: 1px solid #dc3545;
+            color: #dc3545;
+            padding: 0px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .reset-button:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+        .reset-button:active {
+            transform: translateY(1px);
+        }
+
+        .calculator-layout {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            justify-content: center;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .input-section {
+            flex: 0 0 250px;
+            max-width: 250px;
+            margin: 0;
+        }
+
+        .graph-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 635px;
+        }
+
+        #stackReachCanvas {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--card-background);
+            max-width: 600px;
+            height: 635px;
+        }
+
+        .calculator-description-section {
+            max-width: 876px;
+            margin: 1.5rem auto;
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .calculator-description-section h3 {
+            color: var(--text-color);
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .calculator-description-section p {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .calculator-description-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .calculator-description-section strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .calculator-description-section em {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-layout {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .input-section {
+                flex: none;
+                max-width: 100%;
+            }
+            
+            .graph-section {
+                order: -1;
+            }
+            
+            #stackReachCanvas {
+                width: 100%;
+                max-width: 400px;
+                height: auto;
+            }
+
+            .calculator-description-section {
+                margin: 1.5rem auto;
+                padding: 1rem;
+            }
+
+            .calculator-description-section h3 {
+                font-size: 1rem;
+            }
+
+            .calculator-description-section p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <button class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <nav class="mobile-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/" class="active">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button-mobile" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="mobileDarkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="main-nav">
+        <div class="nav-header">
+            <a href="/"><h2>XY Bike Calc</h2></a>
+        </div>
+        <ul>
+            <li><a href="/xy-position-calculator/">X/Y Position Calculator</a></li>
+            <li><a href="/position-simulator/">Bike Position Simulator</a></li>
+            <li><a href="/stack-reach-calculator/" class="active">Stack & Reach Calculator</a></li>
+            <li><a href="/seatpost-calculator/">Seatpost Calculator</a></li>
+            <li><a href="/stem-calculator/">Stem Calculator</a></li>
+            <li><a href="/bike-search/">Bike Search</a></li>
+        </ul>
+        <div class="flex-spacer"></div>
+        <div class="nav-item">
+            <a href="/about/">About</a>
+        </div>
+        <div class="nav-item-guide">
+            <a href="/guide/">Guide</a>
+        </div>
+        <div class="nav-item">
+            <a href="/product-manuals/">Product Manuals</a>
+        </div>
+        <div class="nav-item-donate">
+            <a href="/donate/">Donate</a>
+        </div>
+        <div class="non-auth-dependent login-container">
+            <button class="login-button" onclick="window.location.href='/login/'">Login</button>
+        </div>
+        <div class="auth-dependent auth-container">
+            <div class="user-container">
+                <span class="user-display"></span>
+                <button id="logout-button" class="logout-button">Logout</button>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button id="darkModeToggle" class="dark-mode-toggle" onclick="toggleTheme()">
+                <span class="toggle-icon">☀️</span>
+                <span class="toggle-text">Light Mode</span>
+            </button>
+        </div>
+        <div class="footer-links">
+            <a href="/terms-of-service/" style="margin-bottom: -10px;">Terms of Service</a>
+            <a href="/privacy-policy/">Privacy Policy</a>
+            <div class="version">
+                <a href="/changelog/">&nbsp;</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1 class="calculator-title">
+                <span class="collapse-indicator">▼</span>
+                Stack & Reach Calculator
+            </h1>
+            <p class="calculator-description">Use this tool to calculate Frame Stack and Reach from a desired HX/HY and specific stem configuration.</p>
+        </div>
+        <div class="calculator-layout">
+            <div class="input-section">
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="handlebarX">Handlebar X:</label>
+                    <input type="number" id="handlebarX" value="">
+                    <span>mm</span>
+                </div>
+                <div class="slider-row">
+                    <input type="range" id="handlebarXSlider" min="300" max="600" value="469" step="1">
+                </div>
+                <div class="input-field">
+                    <label for="handlebarY">Handlebar Y:</label>
+                    <input type="number" id="handlebarY" value="">
+                    <span>mm</span>
+                </div>
+                <div class="slider-row">
+                    <input type="range" id="handlebarYSlider" min="500" max="800" value="618" step="1">
+                </div>
+                <div class="input-field hta-field">
+                    <label for="headTubeAngle">Head Tube Angle:</label>
+                    <input type="number" id="headTubeAngle" value="73" step="0.1">
+                    <span>°</span>
+                </div>
+                <div class="slider-row">
+                    <input type="range" id="headTubeAngleSlider" min="65" max="80" value="73" step="0.1">
+                </div>
+                <div class="input-field">
+                    <label for="stemHeight" class="tooltip">Stem Height:<span class="tooltip-text">Measured height of the stem where it clamps the steerer tube. Typically ranges from 38-42mm.</span></label>
+                    <input type="number" id="stemHeight" value="40" min="10">
+                    <span>mm</span>
+                </div>
+                <div class="slider-row">
+                    <input type="range" id="stemHeightSlider" min="20" max="50" value="40" step="1">
+                </div>
+                <div class="input-field">
+                    <label for="stemLength">Stem Length:</label>
+                    <input type="number" id="stemLength" value="100" min="35">
+                    <span>mm</span>
+                </div>
+                <div class="slider-row">
+                    <input type="range" id="stemLengthSlider" min="35" max="200" value="100" step="5">
+                </div>
+                <div class="input-field">
+                    <label for="stemAngle">Stem Angle:</label>
+                    <input type="number" id="stemAngle" value="-6" step="1">
+                    <span>°</span>
+                </div>
+                <div class="slider-row">
+                    <input type="range" id="stemAngleSlider" min="-30" max="30" value="-6" step="1">
+                </div>
+                <div class="input-field">
+                    <label for="spacerHeight" class="tooltip">Spacer Height:<span class="tooltip-text">Include only the height of actual spacers, not the headset bearing cover or transition spacers which can be specified below.</span></label>
+                    <input type="number" id="spacerHeight" value="20" min="0">
+                    <span>mm</span>
+                </div>
+                <div class="slider-row">
+                    <input type="range" id="spacerHeightSlider" min="0" max="80" value="20" step="1">
+                </div>
+                <div class="input-field">
+                    <label for="headsetHeight" class="tooltip">Headset Height:<span class="tooltip-text">Height of the headset bearing cover and/or transition spacers above the frame.</span></label>
+                    <input type="number" id="headsetHeight" value="10" min="0">
+                    <span>mm</span>
+                </div>
+                <div class="slider-row">
+                    <input type="range" id="headsetHeightSlider" min="0" max="30" value="10" step="1">
+                </div>
+            </div>
+            <div class="button-group">
+                <button id="resetButton" class="reset-button">Reset</button>
+            </div>
+            <div class="results-group">
+                <div class="result-field">
+                    <label>Reach</label>
+                    <span id="frameReach">-- mm</span>
+                </div>
+                <div class="result-field">
+                    <label>Stack</label>
+                    <span id="frameStack">-- mm</span>
+                </div>
+            </div>
+        </div>
+        <div class="graph-section">
+            <canvas id="stackReachCanvas" width="600" height="600"></canvas>
+        </div>
+    </div>
+
+
+    <div class="calculator-description-section">
+        <h3 style="text-align: center;">About Stack & Reach</h3>
+        <p><strong>Stack</strong> is the vertical distance from the bottom bracket to the top of the head tube (thorugh its axis). It affects how high/low your handlebars can be positioned relative to the bottom bracket.</p>
+        
+        <p><strong>Reach</strong> is the horizontal distance from the bottom bracket to the top of the head tube (through its axis). It affects how far forward/rearward your handlebars can be positioned relative to the bottom bracket.</p>
+        
+        <h3 style="text-align: center;">How to Use This Calculator</h3>
+        <p>1. <strong>Enter your desired handlebar position</strong> using HX (horizontal) and HY (vertical) coordinates</p>
+        <p>2. <strong>Set your stem configuration</strong> including stem height, length, and angle</p>
+        <p>3. <strong>Add spacer height</strong> for any components between the frame and stem. This typically includes the headset bearing cover in addition to spacers and any transition pieces that more modern integrated bikes require..</p>
+        <p>4. <strong>Specify the head tube angle</strong> of that you desire the frame to have</p>
+        <p>5. <strong>View the calculated Stack and Reach</strong> values needed for your frame</p>
+        
+        <h3 style="text-align: center;">Visual Guide</h3>
+        <p>The graph shows a mock up of a bike frame with your calculated Stack and Reach point. The red line indicates the top of the frame's head tube, and the dashed lines show the exact Stack and Reach measurements from the coordinate axes.</p>
+        
+        <p><em>Use these Stack and Reach values when shopping for frames or comparing bike geometries to find the the closest fit for your desired handlebar position.</em></p>
+    </div>
+
+    <script src="../js/api-client.js"></script>
+    <script src="../js/debounce-utils.js"></script>
+    <script src="../js/version.js"></script>
+    <script src="../js/stack-reach-calculator.js"></script>
+    <script src="../js/dark-mode.js"></script>
+    <script src="../js/mobile-menu.js"></script>
+    <script src="../js/calculator-header.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+</body>
+</html> 
